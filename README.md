@@ -30,10 +30,6 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## License
-
-Nest is [MIT licensed](LICENSE).
-
 ## File .env
 
 <p>HOST=localhost</p>
