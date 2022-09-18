@@ -74,9 +74,10 @@ Nest is [MIT licensed](LICENSE).
 
 ## File .env
 
-HOST=localhost
-USER_NAME=root
-PASSWORD=root
-DATABASE=local_auth
+<a>HOST=localhost</a>
+<a>USER_NAME=root</a>
+<a>PASSWORD=root</a>
+<a>DATABASE=local_auth</a>
 
-JWT_KEY=xxxxx
+<a>JWT_KEY=xxxxx</a>
+
