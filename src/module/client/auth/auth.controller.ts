@@ -1,19 +1,19 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { OpeAuthService } from './auth.service';
+import { CliAuthService } from './auth.service';
 import { LoginUserDto, RegisterUserDto } from './dto/auth.dto';
-import { LocalManagerAuthGuard } from './guards/local.guard';
+import { LocalUserAuthGuard } from './guards/local.guard';
 import { ResponseAuthUser } from './models/auth.model';
 
 @ApiTags('Authentication')
 @Controller('auth')
-export class OpeAuthController {
-  constructor(private readonly opeAuthService: OpeAuthService) {}
+export class CliAuthController {
+  constructor(private readonly cliAuthService: CliAuthService) {}
 
   @Post('/login')
-  @UseGuards(LocalManagerAuthGuard)
+  @UseGuards(LocalUserAuthGuard)
   @ApiBody({ type: LoginUserDto })
-  @ApiOperation({ summary: 'Login for admin' })
+  @ApiOperation({ summary: 'Login for user' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthUser })
@@ -22,11 +22,11 @@ export class OpeAuthController {
   }
 
   @Post('/register')
-  @ApiOperation({ summary: 'Register for admin' })
+  @ApiOperation({ summary: 'Register for user' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthUser })
   async register(@Body() body: RegisterUserDto) {
-    return await this.opeAuthService.register(body);
+    return await this.cliAuthService.register(body);
   }
 }

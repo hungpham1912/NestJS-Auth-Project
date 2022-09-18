@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { RouterModule } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfig } from '../database/database.config';
+import { ClientModule } from './module/client/client.module';
 import { OperatorModule } from './module/operator/operator.module';
 
 @Module({
@@ -14,6 +15,13 @@ import { OperatorModule } from './module/operator/operator.module';
       {
         path: 'api/v1/operator',
         module: OperatorModule,
+      },
+    ]),
+    ClientModule,
+    RouterModule.register([
+      {
+        path: 'api/v1/client',
+        module: ClientModule,
       },
     ]),
   ],

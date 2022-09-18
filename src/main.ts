@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ClientModule } from './module/client/client.module';
 import { OperatorModule } from './module/operator/operator.module';
 
 async function bootstrap() {
@@ -10,17 +11,30 @@ async function bootstrap() {
   app.enableCors();
 
   // Setup Operator Swagger
-  const PhaseOneSwagger = new DocumentBuilder()
+  const ClientSwagger = new DocumentBuilder()
     .setTitle('Project API - Web App')
     .setDescription('API documentation for version 1 project')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-  const PhaseOneDocument = SwaggerModule.createDocument(app, PhaseOneSwagger, {
+  const ClientDocument = SwaggerModule.createDocument(app, ClientSwagger, {
+    include: [ClientModule],
+  });
+
+  SwaggerModule.setup('client/docs/api', app, ClientDocument);
+
+  // Setup Operator Swagger
+  const OperatorSwagger = new DocumentBuilder()
+    .setTitle('Project API - Web App')
+    .setDescription('API documentation for version 1 project')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const OperatorDocument = SwaggerModule.createDocument(app, OperatorSwagger, {
     include: [OperatorModule],
   });
 
-  SwaggerModule.setup('operator/docs/api', app, PhaseOneDocument);
+  SwaggerModule.setup('operator/docs/api', app, OperatorDocument);
 
   // Setup auto-validations
   app.useGlobalPipes(new ValidationPipe({ transform: true }));

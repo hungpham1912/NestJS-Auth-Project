@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
-import { OpeAuthService } from '../auth.service';
+import { CliAuthService } from '../auth.service';
 import { ResponseAuthUser } from '../models/auth.model';
 
 @Injectable()
-export class LocalManagerStrategy extends PassportStrategy(
+export class LocalUserStrategy extends PassportStrategy(
   Strategy,
-  'basic_manager',
+  'basic_user',
 ) {
-  constructor(private readonly authService: OpeAuthService) {
+  constructor(private readonly authService: CliAuthService) {
     super({
       usernameField: 'phone',
     });

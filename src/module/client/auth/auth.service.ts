@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Unauthorized } from 'shared/exception/auth.exception';
-import { ManagersService } from 'src/module/core/managers/managers.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from './dto/auth.dto';
 import { Payload, ResponseAuthUser } from './models/auth.model';
+import { UsersService } from 'src/module/core/users/users.service';
 
 @Injectable()
-export class OpeAuthService {
+export class CliAuthService {
   constructor(
-    private readonly managerService: ManagersService,
+    private readonly userService: UsersService,
     private readonly jwt: JwtService,
   ) {}
 
@@ -17,21 +17,18 @@ export class OpeAuthService {
     phone: string,
     password: string,
   ): Promise<ResponseAuthUser> {
-    const manager = await this.managerService.findOne({ phone: phone });
-    if (!manager) throw Unauthorized(`Can't find phone number`);
+    const user = await this.userService.findOne({ phone: phone });
+    if (!user) throw Unauthorized(`Can't find phone number`);
 
-    const passwordInvalid = await this.checkPassword(
-      password,
-      manager.password,
-    );
+    const passwordInvalid = await this.checkPassword(password, user.password);
     if (!passwordInvalid) throw Unauthorized('Password failed');
 
     const payload: Payload = {
-      id: manager.id,
-      sub: manager.id,
+      id: user.id,
+      sub: user.id,
     };
     const accessToken = await this.generateJwtToken(payload);
-    const result: ResponseAuthUser = { ...manager, accessToken };
+    const result: ResponseAuthUser = { ...user, accessToken };
 
     return result;
   }
@@ -44,8 +41,8 @@ export class OpeAuthService {
     return this.jwt.sign(payload, { secret: process.env.JWT_KEY });
   }
 
-  async register(body: RegisterDto) {
-    const checkEmail = await this.managerService.findOne([
+  async register(body: RegisterUserDto) {
+    const checkEmail = await this.userService.findOne([
       { email: body.email },
       { phone: body.phone },
     ]);
@@ -55,13 +52,13 @@ export class OpeAuthService {
     const newPass = await this.hashPassword(body.password);
     body.password = newPass;
 
-    const manager = await this.managerService.create(body);
+    const manager = await this.userService.create(body);
     const payload: Payload = {
       id: manager.id,
       sub: manager.id,
     };
     const accessToken = await this.generateJwtToken(payload);
-    const result: ResponseAuthManager = { ...manager, accessToken };
+    const result: ResponseAuthUser = { ...manager, accessToken };
 
     return result;
   }
@@ -72,7 +69,7 @@ export class OpeAuthService {
   }
 
   async validateUserByToken(id: string) {
-    const user = await this.managerService.findOne({ id: id });
+    const user = await this.userService.findOne({ id: id });
     if (!user) {
       throw Unauthorized('Token failed');
     }

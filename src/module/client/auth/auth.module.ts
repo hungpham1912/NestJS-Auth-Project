@@ -1,26 +1,26 @@
 import { Module } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { ManagersModule } from 'src/module/core/managers/managers.module';
-import { OpeAuthService } from './auth.service';
-import { JwtManagerStrategy } from './strategy/jwt.strategy';
-import { LocalManagerStrategy } from './strategy/local.strategy';
+import { UsersModule } from 'src/module/core/users/users.module';
+import { CliAuthService } from './auth.service';
+import { JwtUserStrategy } from './strategy/jwt.strategy';
+import { LocalUserStrategy } from './strategy/local.strategy';
 
 @Module({
-  imports: [PassportModule, ManagersModule],
+  imports: [PassportModule, UsersModule],
   providers: [
-    ManagersModule,
-    OpeAuthService,
+    UsersModule,
+    CliAuthService,
     JwtService,
-    LocalManagerStrategy,
-    JwtManagerStrategy,
+    LocalUserStrategy,
+    JwtUserStrategy,
   ],
   exports: [
-    ManagersModule,
-    OpeAuthService,
+    UsersModule,
+    CliAuthService,
     JwtService,
-    LocalManagerStrategy,
-    JwtManagerStrategy,
+    LocalUserStrategy,
+    JwtUserStrategy,
   ],
 })
-export class OpeAuthModule {}
+export class CliAuthModule {}
