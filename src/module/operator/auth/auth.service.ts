@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Unauthorized } from 'shared/exception/auth.exception';
+import { AuthService } from 'src/module/core/auth/auth.service';
 import { ManagersService } from 'src/module/core/managers/managers.service';
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/auth.dto';
 import { Payload, ResponseAuthManager } from './models/auth.model';
 
@@ -10,7 +9,7 @@ import { Payload, ResponseAuthManager } from './models/auth.model';
 export class OpeAuthService {
   constructor(
     private readonly managerService: ManagersService,
-    private readonly jwt: JwtService,
+    private readonly authService: AuthService,
   ) {}
 
   async validateUser(
@@ -20,7 +19,7 @@ export class OpeAuthService {
     const manager = await this.managerService.findOne({ phone: phone });
     if (!manager) throw Unauthorized(`Can't find phone number`);
 
-    const passwordInvalid = await this.checkPassword(
+    const passwordInvalid = await this.authService.checkPassword(
       password,
       manager.password,
     );
@@ -30,18 +29,10 @@ export class OpeAuthService {
       id: manager.id,
       sub: manager.id,
     };
-    const accessToken = await this.generateJwtToken(payload);
+    const accessToken = await this.authService.generateJwtToken(payload);
     const result: ResponseAuthManager = { ...manager, accessToken };
 
     return result;
-  }
-
-  async checkPassword(input: string, password: string) {
-    return await bcrypt.compare(input, password);
-  }
-
-  async generateJwtToken(payload: Payload) {
-    return this.jwt.sign(payload, { secret: process.env.JWT_KEY });
   }
 
   async register(body: RegisterDto) {
@@ -52,7 +43,7 @@ export class OpeAuthService {
     if (checkEmail)
       throw Unauthorized('Email or Phone already exists in the system');
 
-    const newPass = await this.hashPassword(body.password);
+    const newPass = await this.authService.hashPassword(body.password);
     body.password = newPass;
 
     const manager = await this.managerService.create(body);
@@ -60,15 +51,10 @@ export class OpeAuthService {
       id: manager.id,
       sub: manager.id,
     };
-    const accessToken = await this.generateJwtToken(payload);
+    const accessToken = await this.authService.generateJwtToken(payload);
     const result: ResponseAuthManager = { ...manager, accessToken };
 
     return result;
-  }
-
-  async hashPassword(password: string) {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
   }
 
   async validateUserByToken(id: string) {
