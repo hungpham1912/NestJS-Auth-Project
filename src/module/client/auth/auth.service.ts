@@ -4,9 +4,10 @@ import { RegisterUserDto } from './dto/auth.dto';
 import { Payload, ResponseAuthUser } from './models/auth.model';
 import { UsersService } from 'src/module/core/users/users.service';
 import { AuthService } from 'src/module/core/auth/auth.service';
+import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
 
 @Injectable()
-export class CliAuthService {
+export class CliAuthService implements AuthInterface {
   constructor(
     private readonly userService: UsersService,
     private readonly authService: AuthService,
