@@ -18,13 +18,18 @@ export class CliAuthService implements AuthInterface {
     password: string,
   ): Promise<ResponseAuthUser> {
     const user = await this.userService.findOne({ phone: phone });
-    if (!user) throw Unauthorized(`Can't find phone number`);
+    if (!user)
+      throw Unauthorized(`Can't find phone number`, 'PHONE_NUMBER_NOT_EXIST');
 
     const passwordInvalid = await this.authService.checkPassword(
       password,
       user.password,
     );
-    if (!passwordInvalid) throw Unauthorized('Password failed');
+    if (!passwordInvalid)
+      throw Unauthorized(
+        'The password does not match the password on the system',
+        'PASSWORD_FAILED',
+      );
 
     const payload: Payload = {
       id: user.id,
@@ -42,18 +47,20 @@ export class CliAuthService implements AuthInterface {
       { phone: body.phone },
     ]);
     if (checkEmail)
-      throw Unauthorized('Email or Phone already exists in the system');
-
+      throw Unauthorized(
+        'Email or Phone already exists in the system',
+        'USERNAME_ALREADY_EXIST',
+      );
     const newPass = await this.authService.hashPassword(body.password);
     body.password = newPass;
 
-    const manager = await this.userService.create(body);
+    const user = await this.userService.create(body);
     const payload: Payload = {
-      id: manager.id,
-      sub: manager.id,
+      id: user.id,
+      sub: user.id,
     };
     const accessToken = await this.authService.generateJwtToken(payload);
-    const result: ResponseAuthUser = { ...manager, accessToken };
+    const result: ResponseAuthUser = { ...user, accessToken };
 
     return result;
   }
@@ -61,7 +68,7 @@ export class CliAuthService implements AuthInterface {
   async validateUserByToken(id: string) {
     const user = await this.userService.findOne({ id: id });
     if (!user) {
-      throw Unauthorized('Token failed');
+      throw Unauthorized('Token failed', 'TOKEN_FAILED');
     }
     return user;
   }
