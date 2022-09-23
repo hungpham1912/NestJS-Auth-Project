@@ -18,6 +18,6 @@ export class JwtManagerStrategy extends PassportStrategy(
   }
 
   async validate(payload: Payload) {
-    return await this.authService.validateUserByToken(payload.id);
+    return await this.authService.validateByToken(payload.id);
   }
 }
