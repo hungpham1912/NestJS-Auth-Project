@@ -29,7 +29,7 @@ export class LoginDto {
   password: string;
 }
 
-export class RegisterDto {
+export class RegisterManagerDto {
   @ApiProperty({
     description: 'Email',
     example: 'example@just.engineer.com',

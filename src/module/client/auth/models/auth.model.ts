@@ -8,8 +8,3 @@ export class ResponseAuthUser extends User {
   })
   accessToken: string;
 }
-
-export class Payload {
-  id: string;
-  sub: string;
-}

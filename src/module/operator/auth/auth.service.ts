@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { Unauthorized } from 'shared/exception/auth.exception';
 import { AuthService } from 'src/module/core/auth/auth.service';
 import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
+import { Payload } from 'src/module/core/auth/model/auth.model';
 import { ManagersService } from 'src/module/core/managers/managers.service';
-import { RegisterDto } from './dto/auth.dto';
-import { Payload, ResponseAuthManager } from './models/auth.model';
+import { RegisterManagerDto } from './dto/auth.dto';
+import { ResponseAuthManager } from './models/auth.model';
 
 @Injectable()
 export class OpeAuthService implements AuthInterface {
@@ -41,7 +42,7 @@ export class OpeAuthService implements AuthInterface {
     return result;
   }
 
-  async register(body: RegisterDto) {
+  async register(body: RegisterManagerDto) {
     const checkEmail = await this.managerService.findOne([
       { email: body.email },
       { phone: body.phone },
