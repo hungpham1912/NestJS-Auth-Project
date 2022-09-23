@@ -70,3 +70,45 @@ export class RegisterManagerDto {
   @IsPhoneNumber('VN')
   phone: string;
 }
+
+export class RegisterUserDto {
+  @ApiProperty({
+    description: 'Email',
+    example: 'example@just.engineer.com',
+  })
+  @IsDefined()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @ApiProperty({
+    description: 'Full name',
+    example: 'Donlar Tump',
+  })
+  @IsDefined()
+  @IsString()
+  @IsNotEmpty()
+  fullName: string;
+
+  @ApiProperty({
+    description: 'Password',
+    example: '123456',
+  })
+  @IsDefined()
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+
+  @ApiProperty({
+    description: 'Phone number',
+    example: '0964816xxx',
+  })
+  @IsDefined()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  @IsNotEmpty()
+  @IsPhoneNumber('VN')
+  phone: string;
+}

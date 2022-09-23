@@ -2,10 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { Unauthorized } from 'shared/exception/auth.exception';
 import { AuthService } from 'src/module/core/auth/auth.service';
 import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
-import { Payload } from 'src/module/core/auth/model/auth.model';
+import {
+  Payload,
+  ResponseAuthManager,
+} from 'src/module/core/auth/model/auth.model';
 import { ManagersService } from 'src/module/core/managers/managers.service';
-import { RegisterManagerDto } from './dto/auth.dto';
-import { ResponseAuthManager } from './models/auth.model';
+import { RegisterManagerDto } from '../../core/auth/dto/auth.dto';
 
 @Injectable()
 export class OpeAuthService implements AuthInterface {

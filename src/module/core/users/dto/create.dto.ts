@@ -1,3 +1,3 @@
-import { RegisterUserDto } from 'src/module/client/auth/dto/auth.dto';
+import { RegisterUserDto } from '../../auth/dto/auth.dto';
 
 export class CreateUserDto extends RegisterUserDto {}

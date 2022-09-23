@@ -1,9 +1,7 @@
-import { RegisterUserDto } from 'src/module/client/auth/dto/auth.dto';
-import { ResponseAuthUser } from 'src/module/client/auth/models/auth.model';
-import { RegisterManagerDto } from 'src/module/operator/auth/dto/auth.dto';
-import { ResponseAuthManager } from 'src/module/operator/auth/models/auth.model';
 import { Manager } from '../../managers/entities/manager.entity';
 import { User } from '../../users/entities/user.entity';
+import { RegisterManagerDto, RegisterUserDto } from '../dto/auth.dto';
+import { ResponseAuthManager, ResponseAuthUser } from '../model/auth.model';
 
 export interface AuthInterface {
   validateBasic(

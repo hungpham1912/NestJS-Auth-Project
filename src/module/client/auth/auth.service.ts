@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Unauthorized } from 'shared/exception/auth.exception';
-import { RegisterUserDto } from './dto/auth.dto';
-import { ResponseAuthUser } from './models/auth.model';
 import { UsersService } from 'src/module/core/users/users.service';
 import { AuthService } from 'src/module/core/auth/auth.service';
 import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
-import { Payload } from 'src/module/core/auth/model/auth.model';
+import {
+  Payload,
+  ResponseAuthUser,
+} from 'src/module/core/auth/model/auth.model';
+import { RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
 
 @Injectable()
 export class CliAuthService implements AuthInterface {

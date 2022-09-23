@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoginDto, RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
+import { ResponseAuthUser } from 'src/module/core/auth/model/auth.model';
 import { CliAuthService } from './auth.service';
-import { LoginUserDto, RegisterUserDto } from './dto/auth.dto';
 import { LocalUserAuthGuard } from './guards/local.guard';
-import { ResponseAuthUser } from './models/auth.model';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -12,7 +12,7 @@ export class CliAuthController {
 
   @Post('/login')
   @UseGuards(LocalUserAuthGuard)
-  @ApiBody({ type: LoginUserDto })
+  @ApiBody({ type: LoginDto })
   @ApiOperation({ summary: 'Login for user' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
