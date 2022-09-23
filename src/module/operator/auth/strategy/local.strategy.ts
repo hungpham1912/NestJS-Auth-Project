@@ -19,6 +19,6 @@ export class LocalManagerStrategy extends PassportStrategy(
     phone: string,
     password: string,
   ): Promise<ResponseAuthManager> {
-    return await this.authService.validateUser(phone, password);
+    return await this.authService.validateBasic(phone, password);
   }
 }

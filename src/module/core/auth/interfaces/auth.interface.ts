@@ -6,7 +6,7 @@ import { Manager } from '../../managers/entities/manager.entity';
 import { User } from '../../users/entities/user.entity';
 
 export interface AuthInterface {
-  validateUser(
+  validateBasic(
     phone: string,
     password: string,
   ): Promise<ResponseAuthManager | ResponseAuthUser>;
@@ -15,5 +15,5 @@ export interface AuthInterface {
     body: RegisterDto | RegisterUserDto,
   ): Promise<ResponseAuthManager | ResponseAuthUser>;
 
-  validateUserByToken(id: string): Promise<Manager | User>;
+  validateByToken(id: string): Promise<Manager | User>;
 }

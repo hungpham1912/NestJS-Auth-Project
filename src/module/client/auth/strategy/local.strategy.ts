@@ -16,6 +16,6 @@ export class LocalUserStrategy extends PassportStrategy(
   }
 
   async validate(phone: string, password: string): Promise<ResponseAuthUser> {
-    return await this.authService.validateUser(phone, password);
+    return await this.authService.validateBasic(phone, password);
   }
 }

@@ -13,7 +13,7 @@ export class CliAuthService implements AuthInterface {
     private readonly authService: AuthService,
   ) {}
 
-  async validateUser(
+  async validateBasic(
     phone: string,
     password: string,
   ): Promise<ResponseAuthUser> {
@@ -65,7 +65,7 @@ export class CliAuthService implements AuthInterface {
     return result;
   }
 
-  async validateUserByToken(id: string) {
+  async validateByToken(id: string) {
     const user = await this.userService.findOne({ id: id });
     if (!user) {
       throw Unauthorized('Token failed', 'TOKEN_FAILED');

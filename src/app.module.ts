@@ -1,10 +1,30 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { RouterModule } from '@nestjs/core';
+import { APP_FILTER, RouterModule } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import {
+  BadRequestExceptionFilter,
+  ForbiddenExceptionFilter,
+  UnauthorizedExceptionFilter,
+} from 'shared/filter/filter';
 import { DatabaseConfig } from '../database/database.config';
 import { ClientModule } from './module/client/client.module';
 import { OperatorModule } from './module/operator/operator.module';
+
+const customProvider: Array<any> = [
+  {
+    provide: APP_FILTER,
+    useClass: BadRequestExceptionFilter,
+  },
+  {
+    provide: APP_FILTER,
+    useClass: ForbiddenExceptionFilter,
+  },
+  {
+    provide: APP_FILTER,
+    useClass: UnauthorizedExceptionFilter,
+  },
+];
 
 @Module({
   imports: [
@@ -25,7 +45,6 @@ import { OperatorModule } from './module/operator/operator.module';
       },
     ]),
   ],
-  controllers: [],
-  providers: [],
+  providers: [...customProvider],
 })
 export class AppModule {}

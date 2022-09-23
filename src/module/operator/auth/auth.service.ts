@@ -13,7 +13,7 @@ export class OpeAuthService implements AuthInterface {
     private readonly authService: AuthService,
   ) {}
 
-  async validateUser(
+  async validateBasic(
     phone: string,
     password: string,
   ): Promise<ResponseAuthManager> {
@@ -66,7 +66,7 @@ export class OpeAuthService implements AuthInterface {
     return result;
   }
 
-  async validateUserByToken(id: string) {
+  async validateByToken(id: string) {
     const user = await this.managerService.findOne({ id: id });
     if (!user) {
       throw Unauthorized('Token failed', 'TOKEN_FAILED');
