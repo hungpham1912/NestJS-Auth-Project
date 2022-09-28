@@ -1,13 +1,13 @@
 ## File .default.env
 ```bash
 # database
-$ HOST=
-$ USER_NAME=
-$ PASSWORD=
-$ DATABASE=
+HOST=
+USER_NAME=
+PASSWORD=
+DATABASE=
 
 #jwt
-$ JWT_KEY=xxxxx
+JWT_KEY=xxxxx
 ```
 
 ## Installation
