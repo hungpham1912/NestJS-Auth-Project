@@ -17,3 +17,8 @@ export class DatabaseConfig {
     return this.config;
   }
 }
+
+export enum TableName {
+  MANAGER = 'managers',
+  USER = 'users',
+}

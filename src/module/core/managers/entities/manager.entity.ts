@@ -1,12 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
+import { TableName } from 'database/database.config';
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum MangerRole {
   ADMIN = 'admin',
 }
 
-@Entity('managers')
+@Entity(TableName.MANAGER)
 export class Manager {
   constructor(partial: Partial<Manager>) {
     Object.assign(this, partial);
