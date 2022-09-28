@@ -2,12 +2,15 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { OpeAuthService } from '../auth.service';
-import { Payload } from 'src/module/core/auth/model/auth.model';
+import {
+  AuthManagerStrategy,
+  Payload,
+} from 'src/module/core/auth/model/auth.model';
 
 @Injectable()
 export class JwtManagerStrategy extends PassportStrategy(
   Strategy,
-  'jwt_manager',
+  AuthManagerStrategy.JWT,
 ) {
   constructor(private authService: OpeAuthService) {
     super({

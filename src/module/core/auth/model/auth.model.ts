@@ -2,6 +2,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Manager } from '../../../core/managers/entities/manager.entity';
 import { User } from 'src/module/core/users/entities/user.entity';
 
+export enum AuthManagerStrategy {
+  BASIC = 'basic_manager',
+  JWT = 'jwt_manager',
+}
+
+export enum AuthUserStrategy {
+  BASIC = 'basic_user',
+  JWT = 'jwt_user',
+}
 export class ResponseAuthManager extends Manager {
   @ApiProperty({
     example:
