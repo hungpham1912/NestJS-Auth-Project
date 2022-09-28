@@ -1,13 +1,12 @@
 import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { TableName } from 'database/database.config';
 
 export enum UserRole {
   USER = 'user',
 }
 
-@Entity(TableName.USER)
+@Entity('users')
 export class User {
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
