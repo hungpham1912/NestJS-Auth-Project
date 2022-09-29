@@ -28,7 +28,7 @@ const customProvider: Array<any> = [
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: '.default.env', isGlobal: true }),
+    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     TypeOrmModule.forRoot(new DatabaseConfig().getConfig()),
     OperatorModule,
     RouterModule.register([
