@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Unauthorized } from 'shared/exception/auth.exception';
+import { Unauthorized } from 'src/shared/exception/auth.exception';
 import { UsersService } from 'src/module/core/users/users.service';
 import { AuthService } from 'src/module/core/auth/auth.service';
 import {

@@ -6,8 +6,8 @@ import {
   BadRequestExceptionFilter,
   ForbiddenExceptionFilter,
   UnauthorizedExceptionFilter,
-} from 'shared/filter/filter';
-import { DatabaseConfig } from '../database/database.config';
+} from 'src/shared/filter/filter';
+import { DatabaseConfig } from './database/database.config';
 import { ClientModule } from './module/client/client.module';
 import { OperatorModule } from './module/operator/operator.module';
 

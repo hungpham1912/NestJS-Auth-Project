@@ -1,7 +1,7 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { IS_PUBLIC_KEY } from 'shared/decorators/public.decorator';
+import { IS_PUBLIC_KEY } from 'src/shared/decorators/public.decorator';
 import { AuthUserStrategy } from 'src/module/core/auth/model/auth.model';
 
 @Injectable()
