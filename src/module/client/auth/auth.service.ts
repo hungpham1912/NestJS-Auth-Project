@@ -7,7 +7,7 @@ import {
   ResponseAuthUser,
 } from 'src/module/core/auth/model/auth.model';
 import { RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
-import { AuthInterface } from 'src/interfaces/auth.interface';
+import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
 
 @Injectable()
 export class CliAuthService implements AuthInterface {

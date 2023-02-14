@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER, RouterModule } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   BadRequestExceptionFilter,
@@ -8,10 +8,15 @@ import {
   UnauthorizedExceptionFilter,
 } from 'src/shared/filter/filter';
 import { DatabaseConfig } from './database/database.config';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { ClientModule } from './module/client/client.module';
 import { OperatorModule } from './module/operator/operator.module';
 
 const customProvider: Array<any> = [
+  {
+    provide: APP_INTERCEPTOR,
+    useClass: LoggingInterceptor,
+  },
   {
     provide: APP_FILTER,
     useClass: BadRequestExceptionFilter,

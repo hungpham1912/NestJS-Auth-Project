@@ -6,8 +6,8 @@ import {
   ResponseAuthManager,
   ResponseAuthUser,
 } from 'src/module/core/auth/model/auth.model';
-import { Manager } from '../module/core/managers/entities/manager.entity';
-import { User } from '../module/core/users/entities/user.entity';
+import { Manager } from '../../managers/entities/manager.entity';
+import { User } from '../../users/entities/user.entity';
 
 export interface AuthInterface {
   validateBasic(
