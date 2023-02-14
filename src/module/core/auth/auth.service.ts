@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { getConfig } from 'src/shared/lib/config.lib';
 import { Payload } from './model/auth.model';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class AuthService {
   }
 
   async generateJwtToken(payload: Payload) {
-    return this.jwt.sign(payload, { secret: process.env.JWT_KEY });
+    return this.jwt.sign(payload, { secret: getConfig('jwt.secret') });
   }
 
   async hashPassword(password: string) {
