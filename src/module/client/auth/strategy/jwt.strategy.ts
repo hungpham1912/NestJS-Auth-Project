@@ -6,6 +6,7 @@ import {
   AuthUserStrategy,
   Payload,
 } from 'src/module/core/auth/model/auth.model';
+import { getConfig } from 'src/shared/lib/config.lib';
 
 @Injectable()
 export class JwtUserStrategy extends PassportStrategy(
@@ -16,7 +17,7 @@ export class JwtUserStrategy extends PassportStrategy(
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: true,
-      secretOrKey: process.env.JWT_KEY,
+      secretOrKey: getConfig('jwt.secret'),
     });
   }
 
