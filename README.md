@@ -6,7 +6,7 @@ database:
   password:
   database: 
 jwt:
-  secret: xxxxxx
+  secret: 
 ```
 
 ## Installation

@@ -4,4 +4,4 @@ database:
   password:
   database: 
 jwt:
-  secret: xxxxxx
+  secret: 
