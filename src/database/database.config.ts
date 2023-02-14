@@ -4,7 +4,7 @@ import { User } from 'src/module/core/users/entities/user.entity';
 
 export class DatabaseConfig {
   config: TypeOrmModuleOptions = {
-    type: 'mysql',
+    type: 'postgres',
     host: process.env.HOST,
     username: process.env.USER_NAME,
     password: process.env.PASSWORD,

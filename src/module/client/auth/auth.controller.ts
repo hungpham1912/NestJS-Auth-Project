@@ -1,7 +1,9 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto, RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
 import { ResponseAuthUser } from 'src/module/core/auth/model/auth.model';
+import { User } from 'src/module/core/users/entities/user.entity';
+import { CurrentUser } from 'src/shared/decorators/user.decorator';
 import { CliAuthService } from './auth.service';
 import { LocalUserAuthGuard } from './guards/local.guard';
 
@@ -17,8 +19,8 @@ export class CliAuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthUser })
-  async login(@Req() req: any) {
-    return req.user;
+  async login(@CurrentUser() user: User) {
+    return user;
   }
 
   @Post('/register')
