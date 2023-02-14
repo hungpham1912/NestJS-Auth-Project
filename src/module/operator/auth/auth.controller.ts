@@ -4,7 +4,7 @@ import { ResponseAuthManager } from 'src/module/core/auth/model/auth.model';
 import { OpeAuthService } from './auth.service';
 import { LoginDto, RegisterManagerDto } from '../../core/auth/dto/auth.dto';
 import { LocalManagerAuthGuard } from './guards/local.guard';
-import { CurrentOperator } from 'src/shared/decorators/operator.decorator';
+import { CurrentOperator } from 'src/decorators/operator.decorator';
 import { Manager } from 'src/module/core/managers/entities/manager.entity';
 
 @ApiTags('Authentication')
