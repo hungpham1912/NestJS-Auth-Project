@@ -12,11 +12,19 @@ export class UsersService {
   ) {}
 
   async create(body: CreateUserDto) {
-    const create = this.managerRepository.create(body);
-    return await this.managerRepository.save(create);
+    try {
+      const create = this.managerRepository.create(body);
+      return await this.managerRepository.save(create);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findOne(query: any) {
-    return await this.managerRepository.findOne({ where: query });
+    try {
+      return await this.managerRepository.findOne({ where: query });
+    } catch (error) {
+      throw error;
+    }
   }
 }
