@@ -1,0 +1,5 @@
+export const AUTH_ERROR = {
+  1: 'PHONE_NUMBER_NOT_EXIST',
+  2: 'PASSWORD_FAILED',
+  3: 'SERVER_HANDLE_LOGIN_FAIL',
+};

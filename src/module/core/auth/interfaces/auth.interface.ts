@@ -6,6 +6,7 @@ import {
   ResponseAuthManager,
   ResponseAuthUser,
 } from 'src/module/core/auth/model/auth.model';
+import { BasicResponse } from 'src/shared/response/basic.response';
 import { Manager } from '../../managers/entities/manager.entity';
 import { User } from '../../users/entities/user.entity';
 
@@ -13,11 +14,11 @@ export interface AuthInterface {
   validateBasic(
     phone: string,
     password: string,
-  ): Promise<ResponseAuthManager | ResponseAuthUser>;
+  ): Promise<ResponseAuthManager | ResponseAuthUser | BasicResponse>;
 
   register(
     body: RegisterManagerDto | RegisterUserDto,
-  ): Promise<ResponseAuthManager | ResponseAuthUser>;
+  ): Promise<ResponseAuthManager | ResponseAuthUser | BasicResponse>;
 
   validateByToken(id: string): Promise<Manager | User>;
 }
