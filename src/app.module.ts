@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
@@ -33,7 +32,6 @@ const customProvider: Array<any> = [
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: '.default.env', isGlobal: true }),
     TypeOrmModule.forRoot(new DatabaseConfig().getConfig()),
     OperatorModule,
     RouterModule.register([

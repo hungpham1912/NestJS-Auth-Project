@@ -1,0 +1,7 @@
+database: 
+  host: 
+  username: 
+  password:
+  database: 
+jwt:
+  secret: xxxxxx

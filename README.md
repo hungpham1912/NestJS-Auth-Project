@@ -1,13 +1,12 @@
-## File .default.env
+## File config/default.yaml
 ```bash
-# database
-HOST=
-USER_NAME=
-PASSWORD=
-DATABASE=
-
-#jwt
-JWT_KEY=xxxxx
+database: 
+  host: 
+  username: 
+  password:
+  database: 
+jwt:
+  secret: xxxxxx
 ```
 
 ## Installation
