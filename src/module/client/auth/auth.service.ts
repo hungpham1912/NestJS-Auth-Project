@@ -1,7 +1,10 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/module/core/users/users.service';
 import { AuthService } from 'src/module/core/auth/auth.service';
-import { Payload } from 'src/module/core/auth/model/auth.model';
+import {
+  Payload,
+  ResponseAuthUser,
+} from 'src/module/core/auth/model/auth.model';
 import { RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
 import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
 import { BasicResponse } from 'src/shared/response/basic.response';
@@ -44,12 +47,12 @@ export class CliAuthService implements AuthInterface {
         sub: user.id,
       };
       const accessToken = await this.authService.generateJwtToken(payload);
-      const result: BasicResponse = {
-        statusCode: HttpStatus.OK,
-        data: { ...user, accessToken },
-      };
+      const data: ResponseAuthUser = { ...user, accessToken };
 
-      return result;
+      return {
+        statusCode: HttpStatus.OK,
+        data,
+      };
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:54 ~ CliAuthService ', error);
       return {
@@ -92,7 +95,7 @@ export class CliAuthService implements AuthInterface {
       };
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:93 ~ CliAuthService ', error);
-      throw error;
+      throw { error: AUTH_ERROR[3], code: HttpStatus.INTERNAL_SERVER_ERROR };
     }
   }
 

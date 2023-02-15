@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { Unauthorized } from 'src/shared/exception/auth.exception';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
 import { AuthService } from 'src/module/core/auth/auth.service';
 import {
@@ -8,6 +7,8 @@ import {
 } from 'src/module/core/auth/model/auth.model';
 import { ManagersService } from 'src/module/core/managers/managers.service';
 import { RegisterManagerDto } from '../../core/auth/dto/auth.dto';
+import { AUTH_ERROR } from 'src/module/core/auth/error/message.error';
+import { BasicResponse } from 'src/shared/response/basic.response';
 
 @Injectable()
 export class OpeAuthService implements AuthInterface {
@@ -16,64 +17,95 @@ export class OpeAuthService implements AuthInterface {
     private readonly authService: AuthService,
   ) {}
 
-  async validateBasic(
-    phone: string,
-    password: string,
-  ): Promise<ResponseAuthManager> {
-    const manager = await this.managerService.findOne({ phone: phone });
-    if (!manager)
-      throw Unauthorized(`Can't find phone number`, 'PHONE_NUMBER_NOT_EXIST');
-
-    const passwordInvalid = await this.authService.checkPassword(
-      password,
-      manager.password,
-    );
-    if (!passwordInvalid)
-      throw Unauthorized(
-        'The password does not match the password on the system',
-        'PASSWORD_FAILED',
+  async validateBasic(phone: string, password: string): Promise<BasicResponse> {
+    try {
+      const manager = await this.managerService.findOne({ phone: phone });
+      if (!manager)
+        return {
+          statusCode: HttpStatus.UNAUTHORIZED,
+          data: {
+            error: AUTH_ERROR[1],
+            code: HttpStatus.UNAUTHORIZED,
+          },
+        };
+      const passwordInvalid = await this.authService.checkPassword(
+        password,
+        manager.password,
       );
+      if (!passwordInvalid)
+        return {
+          statusCode: HttpStatus.UNAUTHORIZED,
+          data: {
+            error: AUTH_ERROR[2],
+            code: HttpStatus.UNAUTHORIZED,
+          },
+        };
+      const payload: Payload = {
+        id: manager.id,
+        sub: manager.id,
+      };
+      const accessToken = await this.authService.generateJwtToken(payload);
+      const data: ResponseAuthManager = { ...manager, accessToken };
 
-    const payload: Payload = {
-      id: manager.id,
-      sub: manager.id,
-    };
-    const accessToken = await this.authService.generateJwtToken(payload);
-    const result: ResponseAuthManager = { ...manager, accessToken };
-
-    return result;
+      return {
+        statusCode: HttpStatus.OK,
+        data,
+      };
+    } catch (error) {
+      console.log('🚀 ~ file: auth.service.ts:55 ~ OpeAuthService ', error);
+      return {
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        data: {
+          error: AUTH_ERROR[3],
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
+        },
+      };
+    }
   }
 
   async register(body: RegisterManagerDto) {
-    const checkEmail = await this.managerService.findOne([
-      { email: body.email },
-      { phone: body.phone },
-    ]);
-    if (checkEmail)
-      throw Unauthorized(
-        'Email or Phone already exists in the system',
-        'USERNAME_ALREADY_EXIST',
-      );
+    try {
+      const checkEmail = await this.managerService.findOne([
+        { email: body.email },
+        { phone: body.phone },
+      ]);
+      if (checkEmail)
+        return {
+          statusCode: HttpStatus.UNAUTHORIZED,
+          data: {
+            error: AUTH_ERROR[4],
+            code: HttpStatus.UNAUTHORIZED,
+          },
+        };
 
-    const newPass = await this.authService.hashPassword(body.password);
-    body.password = newPass;
+      const newPass = await this.authService.hashPassword(body.password);
+      body.password = newPass;
 
-    const manager = await this.managerService.create(body);
-    const payload: Payload = {
-      id: manager.id,
-      sub: manager.id,
-    };
-    const accessToken = await this.authService.generateJwtToken(payload);
-    const result: ResponseAuthManager = { ...manager, accessToken };
+      const manager = await this.managerService.create(body);
+      const payload: Payload = {
+        id: manager.id,
+        sub: manager.id,
+      };
+      const accessToken = await this.authService.generateJwtToken(payload);
+      const result: ResponseAuthManager = { ...manager, accessToken };
 
-    return result;
+      return result;
+    } catch (error) {
+      console.log('🚀 ~ file: auth.service.ts:83 ~ OpAuthService', error);
+      throw { error: AUTH_ERROR[5], code: HttpStatus.INTERNAL_SERVER_ERROR };
+    }
   }
 
   async validateByToken(id: string) {
-    const user = await this.managerService.findOne({ id: id });
-    if (!user) {
-      throw Unauthorized('Token failed', 'TOKEN_FAILED');
+    try {
+      const user = await this.managerService.findOne({ id: id });
+      if (!user) {
+        return null;
+      }
+      return user;
+    } catch (error) {
+      console.log('🚀 ~ file: auth.service.ts:96 ~ OpAuthService ', error);
+      return null;
     }
-    return user;
   }
 }
