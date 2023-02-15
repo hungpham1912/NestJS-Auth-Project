@@ -1,11 +1,19 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseAuthManager } from 'src/module/core/auth/model/auth.model';
 import { OpeAuthService } from './auth.service';
 import { LoginDto, RegisterManagerDto } from '../../core/auth/dto/auth.dto';
 import { LocalManagerAuthGuard } from './guards/local.guard';
-import { CurrentOperator } from 'src/decorators/operator.decorator';
-import { Manager } from 'src/module/core/managers/entities/manager.entity';
+import { BasicResponseDecorator } from 'src/decorators/basic.decorator';
+import { BasicResponse } from 'src/shared/response/basic.response';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -19,8 +27,8 @@ export class OpeAuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthManager })
-  async login(@CurrentOperator() manager: Manager) {
-    return manager;
+  async login(@BasicResponseDecorator() basic: BasicResponse, @Res() res: any) {
+    return res.status(basic.statusCode).send(basic.data);
   }
 
   @Post('/register')
@@ -28,7 +36,15 @@ export class OpeAuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthManager })
-  async register(@Body() body: RegisterManagerDto) {
-    return await this.opeAuthService.register(body);
+  async register(
+    @Body() body: RegisterManagerDto,
+    @Res() res: any,
+  ): Promise<ResponseAuthManager> {
+    try {
+      const result = await this.opeAuthService.register(body);
+      return res.status(result.statusCode).send(result.data);
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

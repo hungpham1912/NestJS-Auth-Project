@@ -87,9 +87,12 @@ export class OpeAuthService implements AuthInterface {
         sub: manager.id,
       };
       const accessToken = await this.authService.generateJwtToken(payload);
-      const result: ResponseAuthManager = { ...manager, accessToken };
+      const data: ResponseAuthManager = { ...manager, accessToken };
 
-      return result;
+      return {
+        statusCode: HttpStatus.OK,
+        data,
+      };
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:83 ~ OpAuthService', error);
       throw { error: AUTH_ERROR[5], code: HttpStatus.INTERNAL_SERVER_ERROR };

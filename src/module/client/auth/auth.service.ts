@@ -89,9 +89,11 @@ export class CliAuthService implements AuthInterface {
         sub: user.id,
       };
       const accessToken = await this.authService.generateJwtToken(payload);
+      const data: ResponseAuthUser = { ...user, accessToken };
+
       return {
         statusCode: HttpStatus.OK,
-        data: { ...user, accessToken },
+        data,
       };
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:93 ~ CliAuthService ', error);
