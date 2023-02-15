@@ -25,7 +25,7 @@ export class OpeAuthService implements AuthInterface {
           statusCode: HttpStatus.UNAUTHORIZED,
           data: {
             error: AUTH_ERROR[1],
-            code: HttpStatus.UNAUTHORIZED,
+            statusCode: HttpStatus.UNAUTHORIZED,
           },
         };
       const passwordInvalid = await this.authService.checkPassword(
@@ -37,7 +37,7 @@ export class OpeAuthService implements AuthInterface {
           statusCode: HttpStatus.UNAUTHORIZED,
           data: {
             error: AUTH_ERROR[2],
-            code: HttpStatus.UNAUTHORIZED,
+            statusCode: HttpStatus.UNAUTHORIZED,
           },
         };
       const payload: Payload = {
@@ -57,7 +57,7 @@ export class OpeAuthService implements AuthInterface {
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         data: {
           error: AUTH_ERROR[3],
-          code: HttpStatus.INTERNAL_SERVER_ERROR,
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         },
       };
     }
@@ -74,7 +74,7 @@ export class OpeAuthService implements AuthInterface {
           statusCode: HttpStatus.UNAUTHORIZED,
           data: {
             error: AUTH_ERROR[4],
-            code: HttpStatus.UNAUTHORIZED,
+            statusCode: HttpStatus.UNAUTHORIZED,
           },
         };
 
@@ -95,7 +95,10 @@ export class OpeAuthService implements AuthInterface {
       };
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:83 ~ OpAuthService', error);
-      throw { error: AUTH_ERROR[5], code: HttpStatus.INTERNAL_SERVER_ERROR };
+      throw {
+        error: AUTH_ERROR[5],
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      };
     }
   }
 
