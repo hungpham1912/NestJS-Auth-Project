@@ -12,11 +12,13 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CurrentUser } from 'src/decorators/user.decorator';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { User } from 'src/module/core/users/entities/user.entity';
 import { JwtUserAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('Users')
 @Controller('users')
+@UseInterceptors(TransformInterceptor)
 @UseInterceptors(ClassSerializerInterceptor)
 export class CliUserController {
   @Get('/profile')

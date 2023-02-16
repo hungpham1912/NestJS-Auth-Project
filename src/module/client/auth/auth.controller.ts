@@ -4,7 +4,6 @@ import {
   HttpException,
   HttpStatus,
   Post,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -25,13 +24,11 @@ export class CliAuthController {
   @ApiBody({ type: LoginDto })
   @ApiOperation({ summary: 'Login for user' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthUser })
   async login(
     @BasicResponseDecorator() basic: BasicResponse,
-    @Res() res: any,
-  ): Promise<ResponseAuthUser> {
-    return res.status(basic.statusCode).send(basic.data);
+  ): Promise<BasicResponse> {
+    return basic;
   }
 
   @Post('/register')
@@ -41,11 +38,9 @@ export class CliAuthController {
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthUser })
   async register(
     @Body() body: RegisterUserDto,
-    @Res() res: any,
-  ): Promise<ResponseAuthUser> {
+  ): Promise<BasicResponse | ResponseAuthUser> {
     try {
-      const result = await this.cliAuthService.register(body);
-      return res.status(result.statusCode).send(result.data);
+      return await this.cliAuthService.register(body);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

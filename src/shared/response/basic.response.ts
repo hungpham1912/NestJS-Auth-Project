@@ -1,4 +1,4 @@
 export class BasicResponse {
   statusCode: number;
-  data: any;
+  error: string | object;
 }

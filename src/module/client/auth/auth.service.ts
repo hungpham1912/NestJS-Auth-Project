@@ -17,16 +17,16 @@ export class CliAuthService implements AuthInterface {
     private readonly authService: AuthService,
   ) {}
 
-  async validateBasic(phone: string, password: string): Promise<BasicResponse> {
+  async validateBasic(
+    phone: string,
+    password: string,
+  ): Promise<BasicResponse | ResponseAuthUser> {
     try {
       const user = await this.userService.findOne({ phone: phone });
       if (!user)
         return {
+          error: AUTH_ERROR[1],
           statusCode: HttpStatus.UNAUTHORIZED,
-          data: {
-            error: AUTH_ERROR[1],
-            statusCode: HttpStatus.UNAUTHORIZED,
-          },
         };
 
       const passwordInvalid = await this.authService.checkPassword(
@@ -35,11 +35,8 @@ export class CliAuthService implements AuthInterface {
       );
       if (!passwordInvalid)
         return {
+          error: AUTH_ERROR[2],
           statusCode: HttpStatus.UNAUTHORIZED,
-          data: {
-            error: AUTH_ERROR[2],
-            statusCode: HttpStatus.UNAUTHORIZED,
-          },
         };
 
       const payload: Payload = {
@@ -49,23 +46,19 @@ export class CliAuthService implements AuthInterface {
       const accessToken = await this.authService.generateJwtToken(payload);
       const data: ResponseAuthUser = { ...user, accessToken };
 
-      return {
-        statusCode: HttpStatus.OK,
-        data,
-      };
+      return data;
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:54 ~ CliAuthService ', error);
       return {
+        error: AUTH_ERROR[3],
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        data: {
-          error: AUTH_ERROR[3],
-          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        },
       };
     }
   }
 
-  async register(body: RegisterUserDto): Promise<BasicResponse> {
+  async register(
+    body: RegisterUserDto,
+  ): Promise<BasicResponse | ResponseAuthUser> {
     try {
       const checkEmail = await this.userService.findOne([
         { email: body.email },
@@ -73,11 +66,8 @@ export class CliAuthService implements AuthInterface {
       ]);
       if (checkEmail)
         return {
+          error: AUTH_ERROR[4],
           statusCode: HttpStatus.UNAUTHORIZED,
-          data: {
-            error: AUTH_ERROR[4],
-            statusCode: HttpStatus.UNAUTHORIZED,
-          },
         };
 
       const newPass = await this.authService.hashPassword(body.password);
@@ -91,10 +81,7 @@ export class CliAuthService implements AuthInterface {
       const accessToken = await this.authService.generateJwtToken(payload);
       const data: ResponseAuthUser = { ...user, accessToken };
 
-      return {
-        statusCode: HttpStatus.OK,
-        data,
-      };
+      return data;
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:93 ~ CliAuthService ', error);
       throw {

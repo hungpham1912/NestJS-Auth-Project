@@ -4,7 +4,6 @@ import {
   HttpException,
   HttpStatus,
   Post,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -27,8 +26,8 @@ export class OpeAuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthManager })
-  async login(@BasicResponseDecorator() basic: BasicResponse, @Res() res: any) {
-    return res.status(basic.statusCode).send(basic.data);
+  async login(@BasicResponseDecorator() basic: BasicResponse) {
+    return basic;
   }
 
   @Post('/register')
@@ -38,11 +37,9 @@ export class OpeAuthController {
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthManager })
   async register(
     @Body() body: RegisterManagerDto,
-    @Res() res: any,
-  ): Promise<ResponseAuthManager> {
+  ): Promise<BasicResponse | ResponseAuthManager> {
     try {
-      const result = await this.opeAuthService.register(body);
-      return res.status(result.statusCode).send(result.data);
+      return await this.opeAuthService.register(body);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

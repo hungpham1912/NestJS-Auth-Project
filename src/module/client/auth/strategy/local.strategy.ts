@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
-import { AuthUserStrategy } from 'src/module/core/auth/model/auth.model';
+import {
+  AuthUserStrategy,
+  ResponseAuthUser,
+} from 'src/module/core/auth/model/auth.model';
 import { BasicResponse } from 'src/shared/response/basic.response';
 import { CliAuthService } from '../auth.service';
 
@@ -16,7 +19,10 @@ export class LocalUserStrategy extends PassportStrategy(
     });
   }
 
-  async validate(phone: string, password: string): Promise<BasicResponse> {
+  async validate(
+    phone: string,
+    password: string,
+  ): Promise<BasicResponse | ResponseAuthUser> {
     return await this.authService.validateBasic(phone, password);
   }
 }

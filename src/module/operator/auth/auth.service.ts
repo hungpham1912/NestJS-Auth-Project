@@ -17,16 +17,16 @@ export class OpeAuthService implements AuthInterface {
     private readonly authService: AuthService,
   ) {}
 
-  async validateBasic(phone: string, password: string): Promise<BasicResponse> {
+  async validateBasic(
+    phone: string,
+    password: string,
+  ): Promise<BasicResponse | ResponseAuthManager> {
     try {
       const manager = await this.managerService.findOne({ phone: phone });
       if (!manager)
         return {
+          error: AUTH_ERROR[1],
           statusCode: HttpStatus.UNAUTHORIZED,
-          data: {
-            error: AUTH_ERROR[1],
-            statusCode: HttpStatus.UNAUTHORIZED,
-          },
         };
       const passwordInvalid = await this.authService.checkPassword(
         password,
@@ -34,11 +34,8 @@ export class OpeAuthService implements AuthInterface {
       );
       if (!passwordInvalid)
         return {
+          error: AUTH_ERROR[2],
           statusCode: HttpStatus.UNAUTHORIZED,
-          data: {
-            error: AUTH_ERROR[2],
-            statusCode: HttpStatus.UNAUTHORIZED,
-          },
         };
       const payload: Payload = {
         id: manager.id,
@@ -47,23 +44,19 @@ export class OpeAuthService implements AuthInterface {
       const accessToken = await this.authService.generateJwtToken(payload);
       const data: ResponseAuthManager = { ...manager, accessToken };
 
-      return {
-        statusCode: HttpStatus.OK,
-        data,
-      };
+      return data;
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:55 ~ OpeAuthService ', error);
       return {
+        error: AUTH_ERROR[3],
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        data: {
-          error: AUTH_ERROR[3],
-          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        },
       };
     }
   }
 
-  async register(body: RegisterManagerDto) {
+  async register(
+    body: RegisterManagerDto,
+  ): Promise<BasicResponse | ResponseAuthManager> {
     try {
       const checkEmail = await this.managerService.findOne([
         { email: body.email },
@@ -71,11 +64,8 @@ export class OpeAuthService implements AuthInterface {
       ]);
       if (checkEmail)
         return {
+          error: AUTH_ERROR[4],
           statusCode: HttpStatus.UNAUTHORIZED,
-          data: {
-            error: AUTH_ERROR[4],
-            statusCode: HttpStatus.UNAUTHORIZED,
-          },
         };
 
       const newPass = await this.authService.hashPassword(body.password);
@@ -89,10 +79,7 @@ export class OpeAuthService implements AuthInterface {
       const accessToken = await this.authService.generateJwtToken(payload);
       const data: ResponseAuthManager = { ...manager, accessToken };
 
-      return {
-        statusCode: HttpStatus.OK,
-        data,
-      };
+      return data;
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:83 ~ OpAuthService', error);
       throw {
