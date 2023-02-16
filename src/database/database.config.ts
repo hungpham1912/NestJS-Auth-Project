@@ -1,17 +1,14 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Manager } from 'src/module/core/managers/entities/manager.entity';
 import { User } from 'src/module/core/users/entities/user.entity';
-import { getConfig } from 'src/shared/lib/config.lib';
+import { ENV_CONFIG } from 'src/shared/constants/env.constant';
 
 export class DatabaseConfig {
   config: TypeOrmModuleOptions = {
     type: 'postgres',
-    host: getConfig('database.host'),
-    username: getConfig('database.username'),
-    password: getConfig('database.password'),
-    database: getConfig('database.database'),
     entities: [Manager, User],
     synchronize: true,
+    ...ENV_CONFIG.database,
   };
 
   getConfig() {

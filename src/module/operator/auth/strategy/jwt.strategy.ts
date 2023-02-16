@@ -6,7 +6,7 @@ import {
   AuthManagerStrategy,
   Payload,
 } from 'src/module/core/auth/model/auth.model';
-import { getConfig } from 'src/shared/lib/config.lib';
+import { ENV_CONFIG } from 'src/shared/constants/env.constant';
 
 @Injectable()
 export class JwtManagerStrategy extends PassportStrategy(
@@ -17,7 +17,7 @@ export class JwtManagerStrategy extends PassportStrategy(
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: true,
-      secretOrKey: getConfig('jwt.secret'),
+      secretOrKey: ENV_CONFIG.jwt.secret,
     });
   }
 
