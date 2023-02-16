@@ -5,7 +5,7 @@ import {
   AuthUserStrategy,
   ResponseAuthUser,
 } from 'src/module/core/auth/model/auth.model';
-import { BasicResponse } from 'src/shared/response/basic.response';
+import { BasicResponse } from 'src/shared/basic.response';
 import { CliAuthService } from '../auth.service';
 
 @Injectable()

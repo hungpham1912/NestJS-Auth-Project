@@ -6,7 +6,7 @@ import {
   ResponseAuthManager,
   ResponseAuthUser,
 } from 'src/module/core/auth/model/auth.model';
-import { BasicResponse } from 'src/shared/response/basic.response';
+import { BasicResponse } from 'src/shared/basic.response';
 import { Manager } from '../../managers/entities/manager.entity';
 import { User } from '../../users/entities/user.entity';
 

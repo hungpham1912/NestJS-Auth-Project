@@ -7,7 +7,7 @@ import {
 } from 'src/module/core/auth/model/auth.model';
 import { RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
 import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
-import { BasicResponse } from 'src/shared/response/basic.response';
+import { BasicResponse } from 'src/shared/basic.response';
 import { AUTH_ERROR } from '../../core/auth/error/message.error';
 
 @Injectable()

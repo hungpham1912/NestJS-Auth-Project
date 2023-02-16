@@ -12,7 +12,7 @@ import { OpeAuthService } from './auth.service';
 import { LoginDto, RegisterManagerDto } from '../../core/auth/dto/auth.dto';
 import { LocalManagerAuthGuard } from './guards/local.guard';
 import { BasicResponseDecorator } from 'src/decorators/basic.decorator';
-import { BasicResponse } from 'src/shared/response/basic.response';
+import { BasicResponse } from 'src/shared/basic.response';
 
 @ApiTags('Authentication')
 @Controller('auth')

@@ -12,7 +12,7 @@ import { ResponseAuthUser } from 'src/module/core/auth/model/auth.model';
 import { CliAuthService } from './auth.service';
 import { LocalUserAuthGuard } from './guards/local.guard';
 import { BasicResponseDecorator } from 'src/decorators/basic.decorator';
-import { BasicResponse } from 'src/shared/response/basic.response';
+import { BasicResponse } from 'src/shared/basic.response';
 
 @ApiTags('Authentication')
 @Controller('auth')

@@ -8,7 +8,7 @@ import {
 import { ManagersService } from 'src/module/core/managers/managers.service';
 import { RegisterManagerDto } from '../../core/auth/dto/auth.dto';
 import { AUTH_ERROR } from 'src/module/core/auth/error/message.error';
-import { BasicResponse } from 'src/shared/response/basic.response';
+import { BasicResponse } from 'src/shared/basic.response';
 
 @Injectable()
 export class OpeAuthService implements AuthInterface {
