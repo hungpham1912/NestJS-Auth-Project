@@ -11,8 +11,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CurrentUser } from 'src/decorators/user.decorator';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { CurrentUser } from 'src/wanders/decorators/user.decorator';
+import { TransformInterceptor } from 'src/wanders/interceptors/transform.interceptor';
 import { User } from 'src/module/core/users/entities/user.entity';
 import { JwtUserAuthGuard } from '../auth/guards/jwt-auth.guard';
 

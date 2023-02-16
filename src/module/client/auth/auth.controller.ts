@@ -11,7 +11,7 @@ import { LoginDto, RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
 import { ResponseAuthUser } from 'src/module/core/auth/model/auth.model';
 import { CliAuthService } from './auth.service';
 import { LocalUserAuthGuard } from './guards/local.guard';
-import { BasicResponseDecorator } from 'src/decorators/basic.decorator';
+import { BasicResponseDecorator } from 'src/wanders/decorators/basic.decorator';
 import { BasicResponse } from 'src/shared/basic.response';
 
 @ApiTags('Authentication')
