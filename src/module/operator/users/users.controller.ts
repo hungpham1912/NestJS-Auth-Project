@@ -13,7 +13,7 @@ import { MangerRolesGuard } from '../auth/guards/role.guard';
 import { OpUsersService } from './users.service';
 
 @ApiTags('Users')
-@UseGuards(MangerRolesGuard)
+@UseGuards(JwtAuthManagerGuard, MangerRolesGuard)
 @Controller('users')
 export class OpUsersController {
   constructor(private readonly opUsersService: OpUsersService) {}
@@ -21,7 +21,6 @@ export class OpUsersController {
   @Get()
   @ManagerRoles(MangerRole.ADMIN)
   @ApiBearerAuth()
-  @UseGuards(JwtAuthManagerGuard)
   @ApiOperation({ summary: 'Get users' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })

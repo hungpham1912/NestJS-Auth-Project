@@ -38,7 +38,7 @@ export class ForbiddenExceptionFilter implements ExceptionFilter {
 
       .json({
         statusCode: status,
-        message: 'Insufficient permissions to take action',
+        message: 'Account insufficient permissions to take action',
         error: 'FORBIDDEN',
       });
   }
@@ -56,6 +56,7 @@ export class UnauthorizedExceptionFilter implements ExceptionFilter {
 
       .json({
         statusCode: status,
+        message: 'An error occurred while processing the access token',
         error: 'UNAUTHORIZED',
       });
   }

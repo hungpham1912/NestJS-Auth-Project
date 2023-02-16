@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { UserRole } from 'src/module/core/users/entities/user.entity';
-import { IS_PUBLIC_KEY } from 'src/wanders/decorators/public.decorator';
+import { RoleKey } from 'src/wanders/decorators/role.decorator';
 
 @Injectable()
 export class UserRolesGuard implements CanActivate {
@@ -9,7 +9,7 @@ export class UserRolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
-      IS_PUBLIC_KEY,
+      RoleKey.USER,
       [context.getHandler(), context.getClass()],
     );
     if (!requiredRoles) {
