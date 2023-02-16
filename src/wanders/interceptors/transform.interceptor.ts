@@ -48,6 +48,7 @@ export class TransformInterceptor<T>
 
   matching(method: string, data: any, context: ExecutionContext) {
     let status = 0;
+
     switch (true) {
       case typeof data.statusCode != 'number' && method == HttpMethod.GET:
         status = HttpStatus.OK;
@@ -60,7 +61,7 @@ export class TransformInterceptor<T>
         break;
     }
     context.switchToHttp().getResponse().status(status);
-    return { ...data };
+    return data;
   }
 }
 

@@ -4,7 +4,7 @@ import { UserRole } from 'src/module/core/users/entities/user.entity';
 import { IS_PUBLIC_KEY } from 'src/wanders/decorators/public.decorator';
 
 @Injectable()
-export class RolesGuard implements CanActivate {
+export class UserRolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {

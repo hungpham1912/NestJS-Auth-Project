@@ -27,4 +27,12 @@ export class UsersService {
       throw error;
     }
   }
+
+  async findAll(query: any) {
+    try {
+      return await this.managerRepository.find({ where: query });
+    } catch (error) {
+      throw error;
+    }
+  }
 }

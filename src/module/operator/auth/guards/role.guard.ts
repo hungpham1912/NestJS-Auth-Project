@@ -4,7 +4,7 @@ import { MangerRole } from 'src/module/core/managers/entities/manager.entity';
 import { IS_PUBLIC_KEY } from 'src/wanders/decorators/public.decorator';
 
 @Injectable()
-export class RolesGuard implements CanActivate {
+export class MangerRolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
@@ -16,7 +16,10 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const { user } = context.switchToHttp().getRequest();
-    // return requiredRoles.some((role) => user.role?.includes(role));
-    return true;
+    console.log(
+      '🚀 ~ file: role.guard.ts:19 ~ MangerRolesGuard ~ canActivate ~ user',
+      user,
+    );
+    return requiredRoles.some((role) => user.role?.includes(role));
   }
 }
