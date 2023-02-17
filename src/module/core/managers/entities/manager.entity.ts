@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from 'src/shared/entities/base.entity';
+import { Column, Entity, Index } from 'typeorm';
 
 export enum MangerRole {
   ADMIN = 'admin',
@@ -8,17 +9,7 @@ export enum MangerRole {
 }
 
 @Entity('managers')
-export class Manager {
-  constructor(partial: Partial<Manager>) {
-    Object.assign(this, partial);
-  }
-
-  @ApiProperty({
-    example: 'af4798d8-2743-4f51-8e83-e75763f69bcc',
-  })
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Manager extends BaseEntity {
   @Exclude()
   @Column()
   password: string;

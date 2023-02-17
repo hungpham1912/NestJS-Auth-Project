@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { PaginateQuery } from 'nestjs-paginate';
 import { UsersService } from 'src/module/core/users/users.service';
 
 @Injectable()
 export class OpUsersService {
   constructor(private readonly usersService: UsersService) {}
 
-  async findAll() {
+  async getAll(query: PaginateQuery) {
     return await this.usersService.findAll(null);
   }
 

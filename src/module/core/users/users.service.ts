@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { paginate } from 'nestjs-paginate';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create.dto';
 import { User } from './entities/user.entity';
@@ -8,13 +9,24 @@ import { User } from './entities/user.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly managerRepository: Repository<User>,
+    private readonly userRepository: Repository<User>,
   ) {}
+
+  // paginate(query) {
+  //   const result = paginate(
+  //     query,
+  //     this.userRepository.createQueryBuilder('users'),
+  //     {
+  //       sortableColumns: ['createdAt'],
+  //       defaultSortBy: [['createdAt', 'DESC']],
+  //     },
+  //   );
+  // }
 
   async create(body: CreateUserDto) {
     try {
-      const create = this.managerRepository.create(body);
-      return await this.managerRepository.save(create);
+      const create = this.userRepository.create(body);
+      return await this.userRepository.save(create);
     } catch (error) {
       throw error;
     }
@@ -22,7 +34,7 @@ export class UsersService {
 
   async findOne(query: any) {
     try {
-      return await this.managerRepository.findOne({ where: query });
+      return await this.userRepository.findOne({ where: query });
     } catch (error) {
       throw error;
     }
@@ -30,7 +42,7 @@ export class UsersService {
 
   async findAll(query: any) {
     try {
-      return await this.managerRepository.find({ where: query });
+      return await this.userRepository.find({ where: query });
     } catch (error) {
       throw error;
     }

@@ -1,23 +1,14 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { BaseEntity } from 'src/shared/entities/base.entity';
 
 export enum UserRole {
   USER = 'user',
 }
 
 @Entity('users')
-export class User {
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
-
-  @ApiProperty({
-    example: 'af4798d8-2743-4f51-8e83-e75763f69bcc',
-  })
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class User extends BaseEntity {
   @Exclude()
   @Column()
   password: string;
