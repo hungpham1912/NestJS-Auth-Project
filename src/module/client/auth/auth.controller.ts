@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto, RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
-import { ResponseAuthUser } from 'src/module/core/auth/model/auth.model';
+import { ResponseAuthUser } from 'src/module/core/auth/models/auth.model';
 import { CliAuthService } from './auth.service';
 import { LocalUserAuthGuard } from './guards/local.guard';
 import { BasicResponse } from 'src/shared/basic.response';

@@ -4,7 +4,7 @@ import { AuthService } from 'src/module/core/auth/auth.service';
 import {
   Payload,
   ResponseAuthManager,
-} from 'src/module/core/auth/model/auth.model';
+} from 'src/module/core/auth/models/auth.model';
 import { ManagersService } from 'src/module/core/managers/managers.service';
 import { RegisterManagerDto } from '../../core/auth/dto/auth.dto';
 import { AUTH_ERROR } from 'src/module/core/auth/error/message.error';

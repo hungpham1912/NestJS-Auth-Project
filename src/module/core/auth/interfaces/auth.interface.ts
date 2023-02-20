@@ -5,7 +5,7 @@ import {
 import {
   ResponseAuthManager,
   ResponseAuthUser,
-} from 'src/module/core/auth/model/auth.model';
+} from 'src/module/core/auth/models/auth.model';
 import { BasicResponse } from 'src/shared/basic.response';
 import { Manager } from '../../managers/entities/manager.entity';
 import { User } from '../../users/entities/user.entity';

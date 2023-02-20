@@ -36,6 +36,10 @@ export class OpUsersController {
     example: 10,
     name: 'limit',
   })
+  @ApiQuery({
+    example: 10,
+    name: 'filter.fullName',
+  })
   @Get()
   @ManagerRoles(MangerRole.ADMIN)
   @ApiBearerAuth()

@@ -5,7 +5,7 @@ import { CliAuthService } from '../auth.service';
 import {
   AuthUserStrategy,
   Payload,
-} from 'src/module/core/auth/model/auth.model';
+} from 'src/module/core/auth/models/auth.model';
 import { ENV_CONFIG } from 'src/shared/constants/env.constant';
 
 @Injectable()

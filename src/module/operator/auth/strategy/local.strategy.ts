@@ -4,7 +4,7 @@ import { Strategy } from 'passport-local';
 import {
   AuthManagerStrategy,
   ResponseAuthManager,
-} from 'src/module/core/auth/model/auth.model';
+} from 'src/module/core/auth/models/auth.model';
 import { BasicResponse } from 'src/shared/basic.response';
 import { OpeAuthService } from '../auth.service';
 
