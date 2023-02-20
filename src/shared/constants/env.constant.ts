@@ -1,4 +1,4 @@
-import { getConfig } from '../lib/config.lib';
+import { getConfig } from '../lib/config/config.lib';
 
 export const ENV_CONFIG = {
   database: {

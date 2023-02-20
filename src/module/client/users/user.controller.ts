@@ -11,8 +11,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CurrentUser } from 'src/wanders/decorators/user.decorator';
 import { User } from 'src/module/core/users/entities/user.entity';
+import { AuthResponse } from 'src/wanders/decorators/auth.decorator';
 import { JwtUserAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('Users')
@@ -25,7 +25,7 @@ export class CliUserController {
   @ApiOperation({ summary: 'Get user profile' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  getProfile(@CurrentUser() user: User) {
+  getProfile(@AuthResponse() user: User) {
     return user;
   }
 }

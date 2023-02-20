@@ -7,7 +7,7 @@ export class OpUsersService {
   constructor(private readonly usersService: UsersService) {}
 
   async getAll(query: PaginateQuery) {
-    return await this.usersService.findAll(null);
+    return await this.usersService.paginate(null);
   }
 
   getOne(id: string) {

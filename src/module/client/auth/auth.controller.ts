@@ -11,8 +11,9 @@ import { LoginDto, RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
 import { ResponseAuthUser } from 'src/module/core/auth/model/auth.model';
 import { CliAuthService } from './auth.service';
 import { LocalUserAuthGuard } from './guards/local.guard';
-import { BasicResponseDecorator } from 'src/wanders/decorators/basic.decorator';
 import { BasicResponse } from 'src/shared/basic.response';
+import { User } from 'src/module/core/users/entities/user.entity';
+import { AuthResponse } from 'src/wanders/decorators/auth.decorator';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -25,12 +26,9 @@ export class CliAuthController {
   @ApiOperation({ summary: 'Login for user' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthUser })
-  async login(
-    @BasicResponseDecorator() basic: BasicResponse,
-  ): Promise<BasicResponse> {
-    return basic;
+  async login(@AuthResponse() user: User): Promise<User> {
+    return user;
   }
-
   @Post('/register')
   @ApiOperation({ summary: 'Register for user' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })

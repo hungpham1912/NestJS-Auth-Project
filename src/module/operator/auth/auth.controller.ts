@@ -11,8 +11,9 @@ import { ResponseAuthManager } from 'src/module/core/auth/model/auth.model';
 import { OpeAuthService } from './auth.service';
 import { LoginDto, RegisterManagerDto } from '../../core/auth/dto/auth.dto';
 import { LocalManagerAuthGuard } from './guards/local.guard';
-import { BasicResponseDecorator } from 'src/wanders/decorators/basic.decorator';
 import { BasicResponse } from 'src/shared/basic.response';
+import { AuthResponse } from 'src/wanders/decorators/auth.decorator';
+import { Manager } from 'src/module/core/managers/entities/manager.entity';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -26,8 +27,8 @@ export class OpeAuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK', type: ResponseAuthManager })
-  async login(@BasicResponseDecorator() basic: BasicResponse) {
-    return basic;
+  async login(@AuthResponse() manager: Manager) {
+    return manager;
   }
 
   @Post('/register')

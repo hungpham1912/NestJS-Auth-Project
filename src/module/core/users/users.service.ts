@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from 'nestjs-paginate';
+import { PaginateBuilder } from 'src/shared/lib/paginate/Builder';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create.dto';
 import { User } from './entities/user.entity';
@@ -12,16 +13,18 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  // paginate(query) {
-  //   const result = paginate(
-  //     query,
-  //     this.userRepository.createQueryBuilder('users'),
-  //     {
-  //       sortableColumns: ['createdAt'],
-  //       defaultSortBy: [['createdAt', 'DESC']],
-  //     },
-  //   );
-  // }
+  paginate(query) {
+    // const result = paginate(
+    //   query,
+    //   this.userRepository.createQueryBuilder('users'),
+    //   {
+    //     sortableColumns: ['createdAt'],
+    //     defaultSortBy: [['createdAt', 'DESC']],
+    //   },
+    // );
+    const ts = new PaginateBuilder<User>().setRepository(User).find();
+    return ts;
+  }
 
   async create(body: CreateUserDto) {
     try {
