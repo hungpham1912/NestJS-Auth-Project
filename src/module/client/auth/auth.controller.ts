@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpException,
-  HttpStatus,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto, RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
 import { ResponseAuthUser } from 'src/module/core/auth/models/auth.model';
@@ -14,6 +7,7 @@ import { LocalUserAuthGuard } from './guards/local.guard';
 import { BasicResponse } from 'src/shared/basic.response';
 import { User } from 'src/module/core/users/entities/user.entity';
 import { AuthResponse } from 'src/wanders/decorators/auth.decorator';
+import { BASE_ERROR } from 'src/shared/error/base.error';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -40,7 +34,7 @@ export class CliAuthController {
     try {
       return await this.cliAuthService.register(body);
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      return BASE_ERROR[1];
     }
   }
 }

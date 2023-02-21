@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -20,10 +21,13 @@ import { JwtAuthManagerGuard } from '../auth/guards/jwt-auth.guard';
 import { MangerRolesGuard } from '../auth/guards/role.guard';
 import { OpUsersService } from './users.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { UserFilter } from 'src/module/core/users/models/user.model';
+import { UserQuery } from 'src/wanders/decorators/users.decorator';
 
 @ApiTags('Users')
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(JwtAuthManagerGuard, MangerRolesGuard)
+@ManagerRoles(MangerRole.ADMIN)
 @Controller('users')
 export class OpUsersController {
   constructor(private readonly opUsersService: OpUsersService) {}
@@ -38,17 +42,23 @@ export class OpUsersController {
   })
   @ApiQuery({
     example: 10,
-    name: 'filter.fullName',
+    name: 'fullName',
+  })
+  @ApiQuery({
+    example: 10,
+    name: 'time',
   })
   @Get()
-  @ManagerRoles(MangerRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get users' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK' })
-  getAll(@Paginate() query: PaginateQuery) {
-    return this.opUsersService.getAll(query);
+  async getAll(
+    @Paginate() query: PaginateQuery,
+    @UserQuery() filter: UserFilter,
+  ) {
+    return await this.opUsersService.getAll(query, filter);
   }
 
   @Get(':userId')

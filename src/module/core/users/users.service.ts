@@ -12,7 +12,7 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  paginate(query) {
+  async paginate(query) {
     // const result = paginate(
     //   query,
     //   this.userRepository.createQueryBuilder('users'),

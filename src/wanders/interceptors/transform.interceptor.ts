@@ -7,7 +7,7 @@ import {
   RequestTimeoutException,
 } from '@nestjs/common';
 import { Observable, throwError, TimeoutError } from 'rxjs';
-import { catchError, map, tap, timeout } from 'rxjs/operators';
+import { catchError, map, timeout } from 'rxjs/operators';
 
 export interface Response<T> {
   data: T;
@@ -23,18 +23,11 @@ export class TransformInterceptor<T>
   ): Observable<Response<T>> {
     const request = context.switchToHttp().getRequest();
     const { url, method } = request;
-    const now = Date.now();
-
+    const now = new Date().toISOString();
+    console.log(`💥💥 ${method}  ~ ${url}... ${now}`);
     return next.handle().pipe(
       map((data) => {
         return this.matching(method, data, context);
-      }),
-      tap(() => {
-        const response = context.switchToHttp().getResponse();
-        const { statusCode } = response;
-        console.log(
-          `💥💥 ${method} ~ ${statusCode} ~ ${url}... ${Date.now() - now}ms`,
-        );
       }),
       timeout(5000),
       catchError((err) => {
@@ -47,9 +40,11 @@ export class TransformInterceptor<T>
   }
 
   matching(method: string, data: any, context: ExecutionContext) {
-    let status = 0;
+    let status = 200;
 
     switch (true) {
+      case !data:
+        break;
       case typeof data.statusCode != 'number' && method == HttpMethod.GET:
         status = HttpStatus.OK;
         break;

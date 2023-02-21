@@ -10,4 +10,7 @@ export const ENV_CONFIG = {
   jwt: {
     secret: getConfig('jwt.secret'),
   },
+  system: {
+    port: getConfig('system.port') || 3000,
+  },
 };
