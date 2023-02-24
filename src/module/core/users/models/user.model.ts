@@ -1,4 +1,5 @@
 export class UserFilter {
   fullName: string;
-  time: string;
+  fromDate: string;
+  toDate: string;
 }

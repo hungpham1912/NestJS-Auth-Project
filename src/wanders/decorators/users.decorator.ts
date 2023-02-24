@@ -5,11 +5,12 @@ export const UserQuery = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     const { query } = request;
-
     const filter: UserFilter = {
       fullName: query.fullName,
-      time: JSON.parse(query.time),
+      fromDate: query.fromDate,
+      toDate: query.toDate,
     };
+
     return filter;
   },
 );

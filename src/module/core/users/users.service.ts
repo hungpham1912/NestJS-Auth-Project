@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginate } from 'nestjs-paginate';
+import { paginate, PaginateQuery } from 'nestjs-paginate';
+import { Operator, PaginateBuilder } from 'src/shared/lib/paginate/condition';
 import { Repository } from 'typeorm';
+import { USER_CONSTANT } from './constants/user.constant';
 import { CreateUserDto } from './dto/create.dto';
 import { User } from './entities/user.entity';
+import { UserFilter } from './models/user.model';
 
 @Injectable()
 export class UsersService {
@@ -12,17 +15,37 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async paginate(query) {
-    // const result = paginate(
-    //   query,
-    //   this.userRepository.createQueryBuilder('users'),
-    //   {
-    //     sortableColumns: ['createdAt'],
-    //     defaultSortBy: [['createdAt', 'DESC']],
-    //   },
-    // );
-    // const ts = new PaginateBuilder<User>().setRepository(User).find();
-    // return ts;
+  async paginate(
+    limit: number,
+    page: number,
+    query: PaginateQuery,
+    filter: UserFilter,
+  ) {
+    try {
+      const { alias, column } = USER_CONSTANT.paginate;
+      const builder = new PaginateBuilder<User>(this.userRepository, alias)
+        .andWhere(
+          column.fullName,
+          filter?.fullName,
+          filter?.fullName != undefined || null,
+          Operator.LIKE_RIGHT,
+        )
+        .andWhere(
+          column.createdAt,
+          filter?.fromDate,
+          filter?.fromDate != undefined || null,
+          Operator.MT,
+        )
+        .setRepository();
+      return await paginate(query, builder, {
+        maxLimit: limit,
+        defaultLimit: page,
+        sortableColumns: ['createdAt'],
+        defaultSortBy: [['createdAt', 'DESC']],
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async create(body: CreateUserDto) {

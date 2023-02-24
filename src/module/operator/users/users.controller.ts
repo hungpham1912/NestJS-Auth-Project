@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Param,
-  Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -45,8 +44,12 @@ export class OpUsersController {
     name: 'fullName',
   })
   @ApiQuery({
-    example: 10,
-    name: 'time',
+    example: '24-2-2023',
+    name: 'fromDate',
+  })
+  @ApiQuery({
+    example: '29-2-2023',
+    name: 'toDate',
   })
   @Get()
   @ApiBearerAuth()
