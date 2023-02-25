@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { Operator, PaginateBuilder } from 'src/shared/lib/paginate/condition';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { USER_CONSTANT } from './constants/user.constant';
 import { CreateUserDto } from './dto/create.dto';
 import { User } from './entities/user.entity';
@@ -36,7 +36,32 @@ export class UsersService {
           filter?.fromDate != undefined || null,
           Operator.MT,
         )
-        .setRepository();
+        .andWhere(
+          column.createdAt,
+          filter?.toDate,
+          filter?.toDate != undefined || null,
+          Operator.LT,
+        )
+
+        .getRepository();
+
+      const ts = this.userRepository
+        .createQueryBuilder('users')
+        .where('users.fullName ilike :fullName', {
+          fullName: `${filter?.fullName}%`,
+        })
+        .andWhere({ createdAt: MoreThan(filter.fromDate) });
+
+      console.log(
+        '🚀 ~ file: users.service.ts:54 ~ UsersService ~ ts:',
+        builder.getSql(),
+      );
+
+      // const ts = builder.getSql();
+      console.log(
+        '🚀 ~ file: users.service.ts:49 ~ UsersService ~ ts:',
+        ts.getSql(),
+      );
       return await paginate(query, builder, {
         maxLimit: limit,
         defaultLimit: page,

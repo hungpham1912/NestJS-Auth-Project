@@ -1,4 +1,4 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -8,8 +8,13 @@ import { OperatorModule } from './module/operator/operator.module';
 import { ENV_CONFIG } from './shared/constants/env.constant';
 
 async function bootstrap() {
+  const { port, apiVersion } = ENV_CONFIG.system;
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors();
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: [apiVersion],
+  });
 
   // Setup Operator Swagger
   const ClientSwagger = new DocumentBuilder()
@@ -40,7 +45,7 @@ async function bootstrap() {
   // Setup auto-validations
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-  await app.listen(ENV_CONFIG.system.port);
-  Logger.log(`Server listening on http://localhost:${ENV_CONFIG.system.port}/`);
+  await app.listen(port);
+  Logger.log(`Server listening on http://localhost:${port}/`);
 }
 bootstrap();

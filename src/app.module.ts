@@ -12,14 +12,14 @@ import { OperatorModule } from './module/operator/operator.module';
     OperatorModule,
     RouterModule.register([
       {
-        path: 'api/v1/operator',
+        path: 'api/operator',
         module: OperatorModule,
       },
     ]),
     ClientModule,
     RouterModule.register([
       {
-        path: 'api/v1/client',
+        path: 'api/client',
         module: ClientModule,
       },
     ]),

@@ -44,11 +44,11 @@ export class OpUsersController {
     name: 'fullName',
   })
   @ApiQuery({
-    example: '24-2-2023',
+    example: '2022-02-09',
     name: 'fromDate',
   })
   @ApiQuery({
-    example: '29-2-2023',
+    example: '2022-02-09',
     name: 'toDate',
   })
   @Get()

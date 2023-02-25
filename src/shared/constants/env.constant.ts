@@ -12,5 +12,6 @@ export const ENV_CONFIG = {
   },
   system: {
     port: getConfig('system.port') || 3000,
+    apiVersion: getConfig('system.api_version'),
   },
 };
