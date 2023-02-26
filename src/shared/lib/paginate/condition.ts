@@ -1,15 +1,8 @@
-import {
-  LessThan,
-  LessThanOrEqual,
-  MoreThan,
-  Not,
-  Repository,
-  SelectQueryBuilder,
-} from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 
 export class PaginateBuilder<T> {
-  public repository: SelectQueryBuilder<T>;
-  private alias: string;
+  repository: SelectQueryBuilder<T>;
+  alias: string;
 
   public constructor(repo: Repository<T>, alias: string) {
     this.repository = repo.createQueryBuilder(alias);
@@ -29,11 +22,6 @@ export class PaginateBuilder<T> {
         value,
         operator,
       );
-      console.log(
-        '🚀 ~ file: condition.ts:27 ~ PaginateBuilder<T> ~ query:',
-        query,
-      );
-
       this.repository.andWhere(queryStr, query);
     }
     return this;
@@ -66,25 +54,25 @@ export function buildQueryStr(
   colum: string,
   value: string | number | Date,
   operator: string,
-) {
+): { query: any; queryStr: string } {
   let queryStr = '';
   let query = null;
   switch (operator) {
     case Operator.LIKE_RIGHT:
-      queryStr = `${alias}.${colum} ilike :value`;
-      query = { value: `${value}%` };
+      queryStr = `${alias}.${colum} ilike :like_right`;
+      query = { like_right: `${value}%` };
       break;
     case Operator.MT:
-      queryStr = undefined;
-      query[`${colum}`] = MoreThan(value);
+      queryStr = `${alias}.${colum} > :mt`;
+      query = { mt: value };
       break;
     case Operator.LTE:
-      queryStr = undefined;
-      query[`${colum}`] = LessThanOrEqual(value);
+      queryStr = `${alias}.${colum} <= :lte`;
+      query = { lte: value };
       break;
     case Operator.LT:
-      queryStr = undefined;
-      query[`${colum}`] = LessThan(value);
+      queryStr = `${alias}.${colum} < :lt`;
+      query = { lt: value };
       break;
     default:
       break;
