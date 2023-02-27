@@ -1,5 +1,8 @@
 ## File config/default.yaml
 ```bash
+system: 
+  port: 3000
+  api_version: 1
 database: 
   host: 
   username: 
