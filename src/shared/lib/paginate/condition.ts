@@ -1,3 +1,5 @@
+import { Logger } from '@nestjs/common';
+import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 
 export class PaginateBuilder<T> {
@@ -46,6 +48,26 @@ export class PaginateBuilder<T> {
 
   getRepository() {
     return this.repository;
+  }
+  getPaginate(data: {
+    limit: number;
+    page: number;
+    query: PaginateQuery;
+    sortableColumns?: any;
+    defaultSortBy?: any;
+  }) {
+    const { limit, page, sortableColumns, defaultSortBy, query } = data;
+    try {
+      return paginate(query, this.repository, {
+        maxLimit: limit,
+        defaultLimit: page,
+        sortableColumns: sortableColumns ? sortableColumns : ['createdAt'],
+        defaultSortBy: defaultSortBy ? defaultSortBy : [['createdAt', 'DESC']],
+      });
+    } catch (error) {
+      Logger.error(error);
+      throw error;
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginate, PaginateQuery } from 'nestjs-paginate';
+import { PaginateQuery } from 'nestjs-paginate';
 import { Operator, PaginateBuilder } from 'src/shared/lib/paginate/condition';
 import { Repository } from 'typeorm';
 import { USER_CONSTANT } from './constants/user.constant';
@@ -23,7 +23,7 @@ export class UsersService {
   ) {
     try {
       const { alias, column } = USER_CONSTANT.paginate;
-      const builder = new PaginateBuilder<User>(this.userRepository, alias)
+      return await new PaginateBuilder<User>(this.userRepository, alias)
         .andWhere(
           column.fullName,
           filter?.fullName,
@@ -42,14 +42,7 @@ export class UsersService {
           filter?.toDate != undefined,
           Operator.LT,
         )
-        .getRepository();
-
-      return await paginate(query, builder, {
-        maxLimit: limit,
-        defaultLimit: page,
-        sortableColumns: ['createdAt'],
-        defaultSortBy: [['createdAt', 'DESC']],
-      });
+        .getPaginate({ limit, page, query });
     } catch (error) {
       throw error;
     }
