@@ -34,7 +34,7 @@ export class CliAuthController {
     try {
       return await this.cliAuthService.register(body);
     } catch (error) {
-      return BASE_ERROR[1];
+      return BASE_ERROR[0];
     }
   }
 }

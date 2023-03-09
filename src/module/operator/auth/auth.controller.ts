@@ -36,7 +36,7 @@ export class OpeAuthController {
     try {
       return await this.opeAuthService.register(body);
     } catch (error) {
-      return BASE_ERROR[1];
+      return BASE_ERROR[0];
     }
   }
 }

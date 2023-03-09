@@ -22,6 +22,7 @@ import { OpUsersService } from './users.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { UserFilter } from 'src/module/core/users/models/user.model';
 import { UserQuery } from 'src/wanders/decorators/users.decorator';
+import { BASE_ERROR } from 'src/shared/error/base.error';
 
 @ApiTags('Users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -61,7 +62,11 @@ export class OpUsersController {
     @Paginate() query: PaginateQuery,
     @UserQuery() filter: UserFilter,
   ) {
-    return await this.opUsersService.getAll(query, filter);
+    try {
+      return await this.opUsersService.getAll(query, filter);
+    } catch (error) {
+      return BASE_ERROR[0];
+    }
   }
 
   @Get(':userId')
@@ -72,6 +77,10 @@ export class OpUsersController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 200, description: 'OK' })
   findOne(@Param('userId', new UUIDPipe()) id: string) {
-    return this.opUsersService.getOne(id);
+    try {
+      return this.opUsersService.getOne(id);
+    } catch (error) {
+      return BASE_ERROR[0];
+    }
   }
 }

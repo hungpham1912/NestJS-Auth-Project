@@ -49,10 +49,7 @@ export class CliAuthService implements AuthInterface {
       return data;
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:54 ~ CliAuthService ', error);
-      return {
-        error: AUTH_ERROR[3],
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-      };
+      throw error;
     }
   }
 
@@ -84,10 +81,7 @@ export class CliAuthService implements AuthInterface {
       return data;
     } catch (error) {
       console.log('🚀 ~ file: auth.service.ts:93 ~ CliAuthService ', error);
-      throw {
-        error: AUTH_ERROR[5],
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-      };
+      throw error;
     }
   }
 
