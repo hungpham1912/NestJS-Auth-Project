@@ -1,7 +1,7 @@
 export const AUTH_ERROR = {
-  1: 'PHONE_NUMBER_NOT_EXIST',
-  2: 'PASSWORD_FAILED',
-  3: 'SERVER_HANDLE_LOGIN_FAIL',
-  4: 'USERNAME_ALREADY_EXIST',
-  5: 'SERVER_HANDLE_REGISTER_FAIL',
+  1: 'Phone number not exist',
+  2: 'Password failed',
+  3: 'Server handle login failed',
+  4: 'Username already exist',
+  5: 'Server handle register failed',
 };

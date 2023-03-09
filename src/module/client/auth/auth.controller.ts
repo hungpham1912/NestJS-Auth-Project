@@ -14,7 +14,6 @@ import { BASE_ERROR } from 'src/shared/error/base.error';
 export class CliAuthController {
   constructor(private readonly cliAuthService: CliAuthService) {}
 
-  @Version(['1', '2'])
   @Post('/login')
   @UseGuards(LocalUserAuthGuard)
   @ApiBody({ type: LoginDto })
