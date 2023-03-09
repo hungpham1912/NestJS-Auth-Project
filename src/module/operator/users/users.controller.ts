@@ -21,7 +21,7 @@ import { MangerRolesGuard } from '../auth/guards/role.guard';
 import { OpUsersService } from './users.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { UserFilter } from 'src/module/core/users/models/user.model';
-import { UserQuery } from 'src/wanders/decorators/users.decorator';
+import { UserFilterDecor } from 'src/wanders/decorators/users.decorator';
 import { BASE_ERROR } from 'src/shared/error/base.error';
 
 @ApiTags('Users')
@@ -60,7 +60,7 @@ export class OpUsersController {
   @ApiResponse({ status: 200, description: 'OK' })
   async getAll(
     @Paginate() query: PaginateQuery,
-    @UserQuery() filter: UserFilter,
+    @UserFilterDecor() filter: UserFilter,
   ) {
     try {
       return await this.opUsersService.getAll(query, filter);
