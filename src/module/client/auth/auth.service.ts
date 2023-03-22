@@ -57,16 +57,6 @@ export class CliAuthService implements AuthInterface {
     body: RegisterUserDto,
   ): Promise<BasicResponse | ResponseAuthUser> {
     try {
-      const checkEmail = await this.userService.findOne([
-        { email: body.email },
-        { phone: body.phone },
-      ]);
-      if (checkEmail)
-        return {
-          error: AUTH_ERROR[4],
-          statusCode: HttpStatus.UNAUTHORIZED,
-        };
-
       const newPass = await this.authService.hashPassword(body.password);
       body.password = newPass;
 

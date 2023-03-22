@@ -21,15 +21,11 @@ export class TransformInterceptor<T>
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
-    const request = context.switchToHttp().getRequest();
-    const { url, method } = request;
-    const now = new Date().toISOString();
-    console.log(`💥💥 ${method}  ~ ${url}... ${now}`);
     return next.handle().pipe(
       map((data) => {
-        return this.matching(method, data, context);
+        return this.matching(data, context);
       }),
-      timeout(5000),
+      timeout(30000),
       catchError((err) => {
         if (err instanceof TimeoutError) {
           return throwError(() => new RequestTimeoutException());
@@ -39,9 +35,10 @@ export class TransformInterceptor<T>
     );
   }
 
-  matching(method: string, data: any, context: ExecutionContext) {
+  matching(data: any, context: ExecutionContext) {
     let status = 200;
-
+    const request = context.switchToHttp().getRequest();
+    const { url, method } = request;
     switch (true) {
       case !data:
         break;
@@ -55,7 +52,11 @@ export class TransformInterceptor<T>
         status = data.statusCode;
         break;
     }
+
+    const now = new Date().toISOString();
     context.switchToHttp().getResponse().status(status);
+
+    console.log(`💥💥 ${method}  ~ ${url}  ${status} ... ${now}`);
     return data;
   }
 }

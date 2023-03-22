@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { Source } from './database/database.config';
 import { ClientModule } from './module/client/client.module';
 import { OperatorModule } from './module/operator/operator.module';
 import { ENV_CONFIG } from './shared/constants/env.constant';
@@ -44,7 +45,7 @@ async function bootstrap() {
 
   // Setup auto-validations
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-
+  await Source.setConnect();
   await app.listen(port);
   Logger.log(`Server listening on http://localhost:${port}/`);
 }

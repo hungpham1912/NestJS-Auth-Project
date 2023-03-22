@@ -58,16 +58,6 @@ export class OpeAuthService implements AuthInterface {
     body: RegisterManagerDto,
   ): Promise<BasicResponse | ResponseAuthManager> {
     try {
-      const checkEmail = await this.managerService.findOne([
-        { email: body.email },
-        { phone: body.phone },
-      ]);
-      if (checkEmail)
-        return {
-          error: AUTH_ERROR[4],
-          statusCode: HttpStatus.UNAUTHORIZED,
-        };
-
       const newPass = await this.authService.hashPassword(body.password);
       body.password = newPass;
 
