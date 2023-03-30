@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginateQuery } from 'nestjs-paginate';
 import { Operator, PaginateBuilder } from 'src/shared/lib/paginate/condition';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { Manager } from '../managers/entities/manager.entity';
 import { USER_CONSTANT } from './constants/user.constant';
 import { CreateUserDto } from './dto/create.dto';
 import { User } from './entities/user.entity';
@@ -57,7 +58,7 @@ export class UsersService {
     }
   }
 
-  async findOne(query: any) {
+  async findOne(query: FindOptionsWhere<User>) {
     try {
       return await this.userRepository.findOne({ where: query });
     } catch (error) {
@@ -65,7 +66,7 @@ export class UsersService {
     }
   }
 
-  async findAll(query: any) {
+  async findAll(query: FindOptionsWhere<Manager>) {
     try {
       return await this.userRepository.find({ where: query });
     } catch (error) {

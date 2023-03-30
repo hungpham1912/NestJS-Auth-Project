@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateManagerDto } from './dto/create.dto';
 import { Manager } from './entities/manager.entity';
 
@@ -20,7 +20,7 @@ export class ManagersService {
     }
   }
 
-  async findOne(query: any) {
+  async findOne(query: FindOptionsWhere<Manager>) {
     try {
       return await this.managerRepository.findOne({ where: query });
     } catch (error) {
