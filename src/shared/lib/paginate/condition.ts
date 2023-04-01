@@ -81,20 +81,20 @@ export function buildQueryStr(
   let query = null;
   switch (operator) {
     case Operator.LIKE_RIGHT:
-      queryStr = `${alias}.${colum} ilike :like_right`;
-      query = { like_right: `${value}%` };
+      queryStr = `${alias}.${colum} ilike :${colum}`;
+      query = { [colum]: `${value}%` };
       break;
     case Operator.MT:
-      queryStr = `${alias}.${colum} > :mt`;
-      query = { mt: value };
+      queryStr = `${alias}.${colum} > :${colum}`;
+      query = { [colum]: value };
       break;
     case Operator.LTE:
-      queryStr = `${alias}.${colum} <= :lte`;
-      query = { lte: value };
+      queryStr = `${alias}.${colum} <= :${colum}`;
+      query = { [colum]: value };
       break;
     case Operator.LT:
-      queryStr = `${alias}.${colum} < :lt`;
-      query = { lt: value };
+      queryStr = `${alias}.${colum} < :${colum}`;
+      query = { [colum]: value };
       break;
     default:
       break;
