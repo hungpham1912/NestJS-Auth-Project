@@ -6,12 +6,12 @@ import {
   ResponseAuthUser,
 } from 'src/module/core/auth/models/auth.model';
 import { RegisterUserDto } from 'src/module/core/auth/dto/auth.dto';
-import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
+import { AuthDAO } from 'src/module/core/auth/dao/auth.dao';
 import { BasicResponse } from 'src/shared/basic.response';
 import { AUTH_ERROR } from '../../core/auth/error/message.error';
 
 @Injectable()
-export class CliAuthService implements AuthInterface {
+export class CliAuthService implements AuthDAO {
   constructor(
     private readonly userService: UsersService,
     private readonly authService: AuthService,

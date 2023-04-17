@@ -10,7 +10,7 @@ import { BasicResponse } from 'src/shared/basic.response';
 import { Manager } from '../../managers/entities/manager.entity';
 import { User } from '../../users/entities/user.entity';
 
-export interface AuthInterface {
+export declare class AuthDAO {
   validateBasic(
     phone: string,
     password: string,

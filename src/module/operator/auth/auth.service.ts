@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { AuthInterface } from 'src/module/core/auth/interfaces/auth.interface';
+import { AuthDAO } from 'src/module/core/auth/dao/auth.dao';
 import { AuthService } from 'src/module/core/auth/auth.service';
 import {
   Payload,
@@ -11,7 +11,7 @@ import { AUTH_ERROR } from 'src/module/core/auth/error/message.error';
 import { BasicResponse } from 'src/shared/basic.response';
 
 @Injectable()
-export class OpeAuthService implements AuthInterface {
+export class OpeAuthService implements AuthDAO {
   constructor(
     private readonly managerService: ManagersService,
     private readonly authService: AuthService,
