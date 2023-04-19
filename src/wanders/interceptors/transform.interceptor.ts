@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { Observable, throwError, TimeoutError } from 'rxjs';
 import { catchError, map, timeout } from 'rxjs/operators';
+import * as ip from 'ip';
 
 export interface Response<T> {
   data: T;
@@ -56,7 +57,9 @@ export class TransformInterceptor<T>
     const now = new Date().toISOString();
     context.switchToHttp().getResponse().status(status);
 
-    console.log(`💥💥 ${method}  ~ ${url}  ${status} ... ${now}`);
+    console.log(
+      `💥💥 ${method}  ~ ${url} ~ ${status} ${ip.address()} ... ${now}`,
+    );
     return data;
   }
 }
