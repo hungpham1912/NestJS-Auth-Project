@@ -8,16 +8,16 @@ import { Payload } from './models/auth.model';
 export class AuthService {
   constructor(private readonly jwt: JwtService) {}
 
-  async checkPassword(input: string, password: string) {
-    return await bcrypt.compare(input, password);
-  }
+  checkPassword = (input: string, password: string) => {
+    return bcrypt.compare(input, password);
+  };
 
-  async generateJwtToken(payload: Payload) {
+  generateJwtToken = async (payload: Payload) => {
     return this.jwt.sign(payload, { secret: ENV_CONFIG.jwt.secret });
-  }
+  };
 
-  async hashPassword(password: string) {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
-  }
+  hashPassword = (password: string) => {
+    const salt = bcrypt.genSalt(10);
+    return bcrypt.hash(password, salt);
+  };
 }
