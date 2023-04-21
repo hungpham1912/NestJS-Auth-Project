@@ -4,7 +4,9 @@ import { User } from 'src/module/core/users/entities/user.entity';
 import { ENV_CONFIG } from 'src/shared/constants/env.constant';
 import { DataSource } from 'typeorm';
 
-export const ENTITIES = [[Manager, User]];
+export const ENTITIES = {
+  default: [Manager, User],
+};
 
 @Injectable({
   scope: Scope.DEFAULT,
@@ -19,7 +21,7 @@ export class Source {
   public static async setConnect() {
     const source = new DataSource({
       type: 'postgres',
-      entities: ENTITIES[0],
+      entities: ENTITIES.default,
       synchronize: false,
       ...ENV_CONFIG.database,
     });
