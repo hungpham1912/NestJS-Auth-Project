@@ -16,8 +16,9 @@ export class AuthService {
     return this.jwt.sign(payload, { secret: ENV_CONFIG.jwt.secret });
   };
 
-  hashPassword = (password: string) => {
-    const salt = bcrypt.genSalt(10);
-    return bcrypt.hash(password, salt);
+  hashPassword = async (password: string) => {
+    const salt = await bcrypt.genSalt(10);
+    console.log('🚀 ~ file: auth.service.ts:21 ~ AuthService ~ salt:', salt);
+    return await bcrypt.hash(password, salt);
   };
 }
