@@ -11,7 +11,7 @@ import { ENV_CONFIG } from './shared/constants/env.constant';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      entities: ENTITIES[0],
+      entities: ENTITIES.default,
       synchronize: true,
       ...ENV_CONFIG.database,
     }),
