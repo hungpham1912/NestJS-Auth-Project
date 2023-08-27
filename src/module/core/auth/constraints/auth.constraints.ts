@@ -50,7 +50,7 @@ export class ManagerExistConstraint implements ValidatorConstraintInterface {
 export class ManagerNotExistConstraint implements ValidatorConstraintInterface {
   async validate(value: string, validationArguments: ValidationArguments) {
     const check = await Source.connect()
-      .getRepository(User)
+      .getRepository(Manager)
       .findOne({
         where: { [validationArguments.property]: value },
       });
